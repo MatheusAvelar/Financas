@@ -38,7 +38,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Matheus</div>
+                <div class="sidebar-brand-text mx-3">Controle de Despesas</div>
             </a>
 
             <!-- Divider -->
@@ -69,9 +69,7 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Cartões:</h6>
-                        <a class="collapse-item" href="pagbank.php">PagBank</a>
-                        <a class="collapse-item" href="sicoob.php">Sicoob</a>
-                        <a class="collapse-item" href="credicard.php">Credicard</a>
+                        <a class="collapse-item" href="xpInvestimentos.php">XP Cartão</a>
                     </div>
                 </div>
             </li>
@@ -104,7 +102,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Aplicações:</h6>
                         <a class="collapse-item" href="cripto.php">Criptomoedas</a>
-                        <a class="collapse-item" href="kiexo.php">Kiexo</a>
+                        <a class="collapse-item" href="acao.php">Ação</a>
                         <a class="collapse-item" href="fgts.php">Adicionais</a>
                         <div class="collapse-divider"></div>
                         <h6 class="collapse-header">Empresa:</h6>
@@ -222,7 +220,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Receita</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">R$40.200,00</div>
+                                            <div class='h5 mb-0 font-weight-bold text-gray-800'>R$ 5.285,00</div>
                                         </div>
                                         <div class="col-auto">
                                         <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -240,7 +238,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                 Despesa</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">R$30.520,00</div>
+                                                <?php receitaTotal();?>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -258,7 +256,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Total</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">R$9.680,00</div>
+                                            <?php despesaTotal();?>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>

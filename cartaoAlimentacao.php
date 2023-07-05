@@ -205,7 +205,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Cartão Refeição</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Cartão Alimentação</h1>
                         <a onClick="window.print()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i>Gerar Relatório</a>
                     </div>
@@ -217,7 +217,7 @@
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                             Receita</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="Alimentacao">R$ 225,00</div>
+                                            <?php totalAlimentacao();?>
                                     </div>
                                     <div class="col-auto">
                                     <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -229,7 +229,7 @@
 
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Adicionar Elemento na Lista</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Adicionar Item</h6>
                         </div>
                         <div class="card-body">
                             <form class="user" action="cartaoAlimentacao.php" method="post">

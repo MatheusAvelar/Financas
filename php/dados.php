@@ -117,8 +117,9 @@ function insereDadosRefeicao() {
 
     $descricao = $_POST['descricao'];
     $valorTotalCompra = $_POST["valorTotalCompra"];
+    $data = date('d/m/Y');
 
-    $sql ="INSERT INTO refeicao(descricao,totalCompra) VALUES ('$descricao','$valorTotalCompra')";
+    $sql ="INSERT INTO refeicao(descricao,totalCompra,dataCompra) VALUES ('$descricao','$valorTotalCompra','".$data."')";
 
     if(!mysqli_query($conexao, $sql)) {
         echo "Error: ".mysqli_error($conexao);
@@ -137,6 +138,7 @@ function insereDadosAlimentacao() {
     if(!mysqli_query($conexao, $sql)) {
         echo "Error: ".mysqli_error($conexao);
     }
+    totalAlimentacao();
 }
 
 function insereDadosXP() {    
@@ -146,7 +148,7 @@ function insereDadosXP() {
     $valorTotalCompra = $_POST["valorTotalCompra"];
     $data = date('d/m/Y');
 
-    $sql ="INSERT INTO xpinvestimentos(descricao,totalCompra,dataCompra) VALUES ('$descricao','$valorTotalCompra','".$data."')";
+    $sql ="INSERT INTO xpinvestimentos(descricao,totalCompra,dataCompra) VALUES ('$descricao','$valorTotalCompra',NOW())";
 
     if(!mysqli_query($conexao, $sql)) {
         echo "Error: ".mysqli_error($conexao);
@@ -171,7 +173,7 @@ function recuperaDadosRefeicao() {
         die("Falha na conexão: " . mysqli_connect_error());
     }
 
-    $sql = "SELECT descricao,totalCompra FROM refeicao ORDER BY idCompra";
+    $sql = "SELECT dataCompra,descricao,totalCompra FROM refeicao ORDER BY idCompra";
     $result = mysqli_query($conexao, $sql);
 
     $sql2 = "SELECT ROUND(SUM(CAST(REPLACE(totalCompra, '.', '') AS DECIMAL(10,2))), 2) AS total FROM refeicao";
@@ -188,6 +190,7 @@ function recuperaDadosRefeicao() {
                 <table class='table table-bordered' id='dataTable' width='100%' cellspacing='0'>
                     <thead>
                         <tr>
+                            <th>Data</th>
                             <th>Descrição</th>
                             <th>Valor</th>
                         </tr>
@@ -195,11 +198,11 @@ function recuperaDadosRefeicao() {
                     ";
         
         while ($row = mysqli_fetch_assoc($result)) {
-            echo "<tr><td>".$row["descricao"]."</td><td>".$row["totalCompra"]."</td></tr>";
+            echo "<tr><td>".$row["dataCompra"]."</td><td>".$row["descricao"]."</td><td>".$row["totalCompra"]."</td></tr>";
         }
         
         while ($row2 = mysqli_fetch_assoc($result2)) {
-            echo "<thead><tr><th>Total do Extrato</th><th id='qtdtotal'>R$ ".$row2['total']."</th></tr></thead><tbody></table><tbody>";
+            echo "<thead><tr><th>Total do Extrato</th><th></th><th id='qtdtotal'>R$ ".$row2['total']."</th></tr></thead><tbody></table><tbody>";
         }
 
     } else {
@@ -292,6 +295,98 @@ function recuperaDadosXP() {
         
         while ($row2 = mysqli_fetch_assoc($result2)) {
             echo "<thead><tr><th>Total do Extrato</th><th></th><th id='qtdtotal'>R$ ".$row2['total']."</th></tr></thead><tbody></table><tbody>";
+        }
+
+    } else {
+        echo "Nenhum resultado encontrado";
+    }
+
+    mysqli_close($conexao);
+}
+
+function receitaTotal(){
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    
+    if (!$conexao) {
+        die("Falha na conexão: " . mysqli_connect_error());
+    }
+
+    $sql = "SELECT SUM(totalCompra) AS total FROM xpinvestimentos";
+    $result = mysqli_query($conexao, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>R$ ".$row['total'].",00</div>";
+        }
+
+    } else {
+        echo "Nenhum resultado encontrado";
+    }
+
+    mysqli_close($conexao);
+}
+
+function despesaTotal(){
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    
+    if (!$conexao) {
+        die("Falha na conexão: " . mysqli_connect_error());
+    }
+
+    $sql = "SELECT SUM(totalCompra) AS total FROM xpinvestimentos";
+    $result = mysqli_query($conexao, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>R$ ".+5285.000-$row['total'].",00</div>";
+        }
+
+    } else {
+        echo "Nenhum resultado encontrado";
+    }
+
+    mysqli_close($conexao);
+}
+
+function totalAlimentacao(){
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    
+    if (!$conexao) {
+        die("Falha na conexão: " . mysqli_connect_error());
+    }
+
+    $sql = "SELECT SUM(totalCompra) AS total FROM alimentacao";
+    $result = mysqli_query($conexao, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>R$ ".+300-$row['total'].",00</div>";
+        }
+
+    } else {
+        echo "Nenhum resultado encontrado";
+    }
+
+    mysqli_close($conexao);
+}
+
+function totalRefeicao() {
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    
+    if (!$conexao) {
+        die("Falha na conexão: " . mysqli_connect_error());
+    }
+
+    $sql = "SELECT SUM(totalCompra) AS total FROM refeicao";
+    $result = mysqli_query($conexao, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>R$ ".+792-$row['total'].",00</div>";
         }
 
     } else {

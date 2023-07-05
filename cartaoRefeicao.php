@@ -217,7 +217,7 @@
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                             Receita</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="refeicao">R$ 225,00</div>
+                                        <?php totalRefeicao();?>
                                     </div>
                                     <div class="col-auto">
                                     <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -229,7 +229,7 @@
 
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Adicionar Elemento na Lista</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Adicionar Item</h6>
                         </div>
                         <div class="card-body">
                             <form class="user" action="cartaoRefeicao.php" method="post">

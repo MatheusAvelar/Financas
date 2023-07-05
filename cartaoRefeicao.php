@@ -40,7 +40,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Matheus</div>
+                <div class="sidebar-brand-text mx-3">Controle de Despesas</div>
             </a>
 
             <!-- Divider -->
@@ -71,9 +71,7 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Cartões:</h6>
-                        <a class="collapse-item" href="pagbank.php">PagBank</a>
-                        <a class="collapse-item" href="sicoob.php">Sicoob</a>
-                        <a class="collapse-item" href="credicard.php">Credicard</a>
+                        <a class="collapse-item" href="xpInvestimentos.php">XP Cartão</a>
                     </div>
                 </div>
             </li>
@@ -106,7 +104,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Aplicações:</h6>
                         <a class="collapse-item" href="cripto.php">Criptomoedas</a>
-                        <a class="collapse-item" href="kiexo.php">Kiexo</a>
+                        <a class="collapse-item" href="acao.php">Ações</a>
                         <a class="collapse-item" href="fgts.php">Adicionais</a>
                         <div class="collapse-divider"></div>
                         <h6 class="collapse-header">Empresa:</h6>
@@ -234,83 +232,28 @@
                             <h6 class="m-0 font-weight-bold text-primary">Adicionar Elemento na Lista</h6>
                         </div>
                         <div class="card-body">
-                            <form class="user">
+                            <form class="user" action="cartaoRefeicao.php" method="post">
                                 <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" id="descricao" placeholder="Descrição" required>
-                                </div>
-                                <div class="form-group">
-                                <div>
-                                    <p class="mb-4">Parcelado ?</p>
-                                        <label for="radioParc" class="radio-inline control-label"> 
-                                    <input type="radio" name="radioParc" id="radioParc" value="Sim" onclick="exibeOculta();" checked> Sim </label>
-                                        <label for="radioParc" class="radio-inline control-label">
-                                    <input type="radio" name="radioParc" id="radioParc" value="Nao" onclick="exibeOculta();"> Não </label>
-                                </div>
+                                    <input type="text" class="form-control form-control-user" id="descricao" name="descricao" placeholder="Descrição" required>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-sm-2 mb-4 mb-sm-0">
-                                        <input type="number" class="form-control form-control-user" id="quantasVezes" placeholder="Quantas Vezes ?" required>
-                                    </div>
                                     <div class="col-sm-2">
-                                        <input type="text" class="form-control form-control-user" id="valorTotalCompra" placeholder="Valor total da compra parcelada" onblur="divideParcelas()" onKeyPress="return(moeda(this,'.',',',event))" required>
+                                        <input type="text" class="form-control form-control-user" id="valorTotalCompra" name="valorTotalCompra" placeholder="Valor" onKeyPress="return(moeda(this,'.',',',event))" required>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-2 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" id="valorParcela" placeholder="Valor da Parcela" onKeyPress="return(moeda(this,'.',',',event))" disabled required>
-                                    </div>
-                                </div>
-                                <button class="btn btn-primary btn-user" onClick="adicionaLinha('dataTable')">
+                                <button class="btn btn-primary btn-user" onClick= "<?php if( isset($_POST['descricao']) && isset($_POST['valorTotalCompra'])){ insereDadosRefeicao(); }?>">
                                     Adicionar
                                 </button>
-                                <!--<a class="btn btn-info btn-user" onClick="gravar()">
-                                Sincronar Dados - Banco de Dados
-                                </a>-->
+                                <div class="alert" role="alert">
+                                </div>
                             </form>
                         </div>
                     </div>
 
-                    <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Extrato - Cartão Refeição</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Descrição</th>
-                                            <th>Parcelado ?</th>
-                                            <th>Quantas Vezes ?</th>
-                                            <th>Valor Total de Parcelas</th>
-                                            <th>Valor da Parcela</th>
-                                            <th>Remover</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table class="table table-bordered" id="dataTableTotal" width="100%" cellspacing="0"> 
-                                        <thead>
-                                            <tr>
-                                                <th>Total do Extrato</th>
-                                                <th id="qtdtotal">R$ 0,00</th>
-                                            </tr>
-                                        </thead>
-                                    <tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- Dados Tabela -->
+                    <?php recuperaDadosRefeicao(); ?>
+                    <!-- Dados Total -->
+                    <?php //somaTotal(); ?>
 
                 </div>
                 <!-- /.container-fluid -->

@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-include "php/dados.php";
-session_start();
+    include "php/dados.php";
+    session_start();
 ?>
-
 <head>
 
     <meta charset="utf-8">
@@ -19,11 +18,13 @@ session_start();
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <script src="js/dados.js"></script>
     <script src="php/dados.php"></script>
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
+   
 </head>
 
 <body id="page-top">
@@ -39,7 +40,7 @@ session_start();
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Matheus</div>
+                <div class="sidebar-brand-text mx-3">Controle de Despesas</div>
             </a>
 
             <!-- Divider -->
@@ -62,27 +63,28 @@ session_start();
 
             <!-- Nav Item - Cartão de Crédito Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Cartão de Crédito</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Cartões:</h6>
-                        <a class="collapse-item" href="pagbank.php">PagBank</a>
-                        <a class="collapse-item" href="sicoob.php">Sicoob</a>
-                        <a class="collapse-item" href="credicard.php">Credicard</a>
+                        <a class="collapse-item" href="xpInvestimentos.php">XP Cartão</a>
                     </div>
                 </div>
             </li>
 
             <!-- Nav Item - Sodexo Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                    aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-wrench"></i>
                     <span>Sodexo</span>
                 </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Cartões:</h6>
                         <a class="collapse-item" href="cartaoAlimentacao.php">Alimentação</a>
@@ -93,7 +95,8 @@ session_start();
 
             <!-- Nav Item - Investimento Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                    aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
                     <span>Investimentos</span>
                 </a>
@@ -101,7 +104,7 @@ session_start();
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Aplicações:</h6>
                         <a class="collapse-item" href="cripto.php">Criptomoedas</a>
-                        <a class="collapse-item" href="kiexo.php">Kiexo</a>
+                        <a class="collapse-item" href="acao.php">Ações</a>
                         <a class="collapse-item" href="fgts.php">Adicionais</a>
                         <div class="collapse-divider"></div>
                         <h6 class="collapse-header">Empresa:</h6>
@@ -127,6 +130,7 @@ session_start();
             <!-- Main Content -->
             <div id="content">
 
+                <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
@@ -174,7 +178,7 @@ session_start();
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">matheusnutelinha@gmail.com</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION['inputEmail']; ?></span>
                                 <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
@@ -194,16 +198,18 @@ session_start();
                     </ul>
 
                 </nav>
+                <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Cartão Alimentação</h1>
-                        <a onClick="window.print()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i>Gerar Relatório</a>
+                        <h1 class="h3 mb-0 text-gray-800">Cartão Refeição</h1>
+                        <a onClick="window.print()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i>Gerar Relatório</a>
                     </div>
-
+                    
                     <div class="col-xl-3 col-md-6 mb-4">
                         <div class="card border-bottom-success shadow h-100 py-2">
                             <div class="card-body">
@@ -211,10 +217,10 @@ session_start();
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                             Receita</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="alimentacao">R$ 285,00</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="Alimentacao">R$ 225,00</div>
                                     </div>
                                     <div class="col-auto">
-                                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                    <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
                                     </div>
                                 </div>
                             </div>
@@ -226,80 +232,28 @@ session_start();
                             <h6 class="m-0 font-weight-bold text-primary">Adicionar Elemento na Lista</h6>
                         </div>
                         <div class="card-body">
-                            <form class="user">
+                            <form class="user" action="cartaoAlimentacao.php" method="post">
                                 <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" id="descricao" placeholder="Descrição" required>
-                                </div>
-                                <div class="form-group">
-                                    <div>
-                                        <p class="mb-4">Parcelado ?</p>
-                                        <label for="radioParc" class="radio-inline control-label">
-                                            <input type="radio" name="radioParc" id="radioParc" value="Sim" onclick="exibeOculta();" checked> Sim </label>
-                                        <label for="radioParc" class="radio-inline control-label">
-                                            <input type="radio" name="radioParc" id="radioParc" value="Nao" onclick="exibeOculta();"> Não </label>
-                                    </div>
+                                    <input type="text" class="form-control form-control-user" id="descricao" name="descricao" placeholder="Descrição" required>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-sm-2 mb-4 mb-sm-0">
-                                        <input type="number" class="form-control form-control-user" id="quantasVezes" placeholder="Quantas Vezes ?" required>
-                                    </div>
                                     <div class="col-sm-2">
-                                        <input type="text" class="form-control form-control-user" id="valorTotalCompra" placeholder="Valor total da compra parcelada" onblur="divideParcelas()" onKeyPress="return(moeda(this,'.',',',event))" required>
+                                        <input type="text" class="form-control form-control-user" id="valorTotalCompra" name="valorTotalCompra" placeholder="Valor" onKeyPress="return(moeda(this,'.',',',event))" required>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-2 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" id="valorParcela" placeholder="Valor da Parcela" onKeyPress="return(moeda(this,'.',',',event))" disabled required>
-                                    </div>
-                                </div>
-                                <button class="btn btn-primary btn-user" onClick="adicionaLinha('dataTable')">
+                                <button class="btn btn-primary btn-user" onClick= "<?php if( isset($_POST['descricao']) && isset($_POST['valorTotalCompra'])){ insereDadosAlimentacao(); }?>">
                                     Adicionar
                                 </button>
+                                <div class="alert" role="alert">
+                                </div>
                             </form>
                         </div>
                     </div>
 
-                    <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Extrato - Cartão Alimentacao</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Descrição</th>
-                                            <th>Parcelado ?</th>
-                                            <th>Quantas Vezes ?</th>
-                                            <th>Valor Total de Parcelas</th>
-                                            <th>Valor da Parcela</th>
-                                            <th>Remover</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table class="table table-bordered" id="dataTableTotal" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Total do Extrato</th>
-                                            <th id="qtdtotal"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- Dados Tabela -->
+                    <?php recuperaDadosAlimentacao(); ?>
+                    <!-- Dados Total -->
+                    <?php //somaTotal(); ?>
 
                 </div>
                 <!-- /.container-fluid -->

@@ -112,20 +112,43 @@ function esqueceuSenha($email){
     }
 }
 
-function insereDadosBanco() {
+function insereDadosRefeicao() {    
     $conexao = mysqli_connect("localhost", "root", "", "controle");
+
     $descricao = $_POST['descricao'];
-    $qtd = $_POST["quantasVezes"];
     $valorTotalCompra = $_POST["valorTotalCompra"];
-    $valorParcela = $_POST["valorParcela"];
-    
-    $qtd >= 1 ? $parc = "Sim" : $parc = "Nao"; 
 
-    $sql ="INSERT INTO credicard(descricao,parcelado,vezes,totalParcelas,totalCompra) VALUES ('$descricao','$parc',$qtd,'$valorTotalCompra','$valorParcela')";
+    $sql ="INSERT INTO refeicao(descricao,totalCompra) VALUES ('$descricao','$valorTotalCompra')";
 
-    if(mysqli_query($conexao, $sql)) {
-        echo "Inserido!";
-    } else {
+    if(!mysqli_query($conexao, $sql)) {
+        echo "Error: ".mysqli_error($conexao);
+    }
+}
+
+function insereDadosAlimentacao() {    
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
+
+    $descricao = $_POST['descricao'];
+    $valorTotalCompra = $_POST["valorTotalCompra"];
+    $data = date('d/m/Y');
+
+    $sql ="INSERT INTO alimentacao(descricao,totalCompra,dataCompra) VALUES ('$descricao','$valorTotalCompra','".$data."')";
+
+    if(!mysqli_query($conexao, $sql)) {
+        echo "Error: ".mysqli_error($conexao);
+    }
+}
+
+function insereDadosXP() {    
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
+
+    $descricao = $_POST['descricao'];
+    $valorTotalCompra = $_POST["valorTotalCompra"];
+    $data = date('d/m/Y');
+
+    $sql ="INSERT INTO xpinvestimentos(descricao,totalCompra,dataCompra) VALUES ('$descricao','$valorTotalCompra','".$data."')";
+
+    if(!mysqli_query($conexao, $sql)) {
         echo "Error: ".mysqli_error($conexao);
     }
 }
@@ -141,25 +164,139 @@ function logout() {?>
     echo "<script>usuarioDesconectado()</script>";
 }
 
-function recuperaDados() {
+function recuperaDadosRefeicao() {
     $conexao = mysqli_connect("localhost", "root", "", "controle");
-    $query = mysqli_query($conexao,"SELECT * FROM credicard");
-  
-    while($aux = mysqli_fetch_assoc($query)) { 
-        
-        if($aux["parcelado"] != '') {
-            echo "-----------------------------------------<br />
-                Id: ".$aux["id"]."<br />
-                Descrição: ".$aux["descricao"]."<br />
-                Parcelado: ".$aux["parcelado"]."<br />
-                Quantas Vezes ?: ".$aux["vezes"]."<br />
-                Total de Parcelas: ".$aux["totalParcelas"]."<br />
-                Total da Compra: ".$aux["totalCompra"]."<br />";
-        } else {
-            echo "-----------------------------------------<br />
-                Id: ".$aux["id"]."<br />
-                Descrição: ".$aux["descricao"]."<br />
-                Total da Compra: ".$aux["totalCompra"]."<br />";
-        }
+    
+    if (!$conexao) {
+        die("Falha na conexão: " . mysqli_connect_error());
     }
+
+    $sql = "SELECT descricao,totalCompra FROM refeicao ORDER BY idCompra";
+    $result = mysqli_query($conexao, $sql);
+
+    $sql2 = "SELECT ROUND(SUM(CAST(REPLACE(totalCompra, '.', '') AS DECIMAL(10,2))), 2) AS total FROM refeicao";
+    $result2 = mysqli_query($conexao, $sql2);
+
+    if (mysqli_num_rows($result) > 0) {
+
+        echo "<div class='card shadow mb-4'>
+        <div class='card-header py-3'>
+            <h6 class='m-0 font-weight-bold text-primary'>Extrato - Cartão Refeição</h6>
+        </div>
+        <div class='card-body'>
+            <div class='table-responsive'>
+                <table class='table table-bordered' id='dataTable' width='100%' cellspacing='0'>
+                    <thead>
+                        <tr>
+                            <th>Descrição</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    ";
+        
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<tr><td>".$row["descricao"]."</td><td>".$row["totalCompra"]."</td></tr>";
+        }
+        
+        while ($row2 = mysqli_fetch_assoc($result2)) {
+            echo "<thead><tr><th>Total do Extrato</th><th id='qtdtotal'>R$ ".$row2['total']."</th></tr></thead><tbody></table><tbody>";
+        }
+
+    } else {
+        echo "Nenhum resultado encontrado";
+    }
+
+    mysqli_close($conexao);
+}
+
+function recuperaDadosAlimentacao() {
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    
+    if (!$conexao) {
+        die("Falha na conexão: " . mysqli_connect_error());
+    }
+
+    $sql = "SELECT dataCompra,descricao,totalCompra FROM alimentacao ORDER BY idCompra";
+    $result = mysqli_query($conexao, $sql);
+
+    $sql2 = "SELECT ROUND(SUM(CAST(REPLACE(totalCompra, '.', '') AS DECIMAL(10,2))), 2) AS total FROM alimentacao";
+    $result2 = mysqli_query($conexao, $sql2);
+
+    if (mysqli_num_rows($result) > 0) {
+
+        echo "<div class='card shadow mb-4'>
+        <div class='card-header py-3'>
+            <h6 class='m-0 font-weight-bold text-primary'>Extrato - Cartão Alimentação</h6>
+        </div>
+        <div class='card-body'>
+            <div class='table-responsive'>
+                <table class='table table-bordered' id='dataTable' width='100%' cellspacing='0'>
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Descrição</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    ";
+        
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<tr><td>".$row["dataCompra"]."</td><td>".$row["descricao"]."</td><td>".$row["totalCompra"]."</td></tr>";
+        }
+        
+        while ($row2 = mysqli_fetch_assoc($result2)) {
+            echo "<thead><tr><th>Total do Extrato</th><th></th><th id='qtdtotal'>R$ ".$row2['total']."</th></tr></thead><tbody></table><tbody>";
+        }
+
+    } else {
+        echo "Nenhum resultado encontrado";
+    }
+
+    mysqli_close($conexao);
+}
+
+function recuperaDadosXP() {
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    
+    if (!$conexao) {
+        die("Falha na conexão: " . mysqli_connect_error());
+    }
+
+    $sql = "SELECT dataCompra,descricao,totalCompra FROM xpinvestimentos ORDER BY idCompra";
+    $result = mysqli_query($conexao, $sql);
+
+    $sql2 = "SELECT ROUND(SUM(CAST(REPLACE(totalCompra, '.', '') AS DECIMAL(10,2))), 2) AS total FROM xpinvestimentos";
+    $result2 = mysqli_query($conexao, $sql2);
+
+    if (mysqli_num_rows($result) > 0) {
+
+        echo "<div class='card shadow mb-4'>
+        <div class='card-header py-3'>
+            <h6 class='m-0 font-weight-bold text-primary'>Extrato - XP Cartão</h6>
+        </div>
+        <div class='card-body'>
+            <div class='table-responsive'>
+                <table class='table table-bordered' id='dataTable' width='100%' cellspacing='0'>
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Descrição</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    ";
+        
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<tr><td>".$row["dataCompra"]."</td><td>".$row["descricao"]."</td><td>".$row["totalCompra"]."</td></tr>";
+        }
+        
+        while ($row2 = mysqli_fetch_assoc($result2)) {
+            echo "<thead><tr><th>Total do Extrato</th><th></th><th id='qtdtotal'>R$ ".$row2['total']."</th></tr></thead><tbody></table><tbody>";
+        }
+
+    } else {
+        echo "Nenhum resultado encontrado";
+    }
+
+    mysqli_close($conexao);
 }

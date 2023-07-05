@@ -123,13 +123,6 @@ function moeda(a, e, r, t) {
     return !1
 }
 
-function removeLinha(linha) {
-    var i=linha.parentNode.parentNode.rowIndex;
-    document.getElementById('dataTable').deleteRow(i);
-    totalizaColunaExtrato();
-    valorExtratoCard();
-}
-
 function exibeOculta() {
     var check = document.querySelector('input[name=radioParc]:checked').value;
     if (check == 'Sim') {

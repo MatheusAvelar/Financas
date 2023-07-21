@@ -116,10 +116,10 @@ function insereDadosRefeicao() {
     $conexao = mysqli_connect("localhost", "root", "", "controle");
 
     $descricao = $_POST['descricao'];
-    $valorTotalCompra = $_POST["valorTotalCompra"];
-    $data = date('d/m/Y');
+    $valorTotalCompra = str_replace('.', '', $_POST["valorTotalCompra"]);
+    $valorTotalCompra = str_replace(',', '.', $valorTotalCompra);
 
-    $sql ="INSERT INTO refeicao(descricao,totalCompra,dataCompra) VALUES ('$descricao','$valorTotalCompra','".$data."')";
+    $sql ="INSERT INTO refeicao(descricao,totalCompra,dataCompra) VALUES ('$descricao','$valorTotalCompra',NOW())";
 
     if(!mysqli_query($conexao, $sql)) {
         echo "Error: ".mysqli_error($conexao);
@@ -130,10 +130,10 @@ function insereDadosAlimentacao() {
     $conexao = mysqli_connect("localhost", "root", "", "controle");
 
     $descricao = $_POST['descricao'];
-    $valorTotalCompra = $_POST["valorTotalCompra"];
-    $data = date('d/m/Y');
+    $valorTotalCompra = str_replace('.', '', $_POST["valorTotalCompra"]);
+    $valorTotalCompra = str_replace(',', '.', $valorTotalCompra);
 
-    $sql ="INSERT INTO alimentacao(descricao,totalCompra,dataCompra) VALUES ('$descricao','$valorTotalCompra','".$data."')";
+    $sql ="INSERT INTO alimentacao(descricao,totalCompra,dataCompra) VALUES ('$descricao','$valorTotalCompra',NOW())";
 
     if(!mysqli_query($conexao, $sql)) {
         echo "Error: ".mysqli_error($conexao);
@@ -145,8 +145,8 @@ function insereDadosXP() {
     $conexao = mysqli_connect("localhost", "root", "", "controle");
 
     $descricao = $_POST['descricao'];
-    $valorTotalCompra = $_POST["valorTotalCompra"];
-    $data = date('d/m/Y');
+    $valorTotalCompra = str_replace('.', '', $_POST["valorTotalCompra"]);
+    $valorTotalCompra = str_replace(',', '.', $valorTotalCompra);
 
     $sql ="INSERT INTO xpinvestimentos(descricao,totalCompra,dataCompra) VALUES ('$descricao','$valorTotalCompra',NOW())";
 
@@ -268,7 +268,7 @@ function recuperaDadosXP() {
     $sql = "SELECT dataCompra,descricao,totalCompra FROM xpinvestimentos ORDER BY idCompra";
     $result = mysqli_query($conexao, $sql);
 
-    $sql2 = "SELECT ROUND(SUM(CAST(REPLACE(totalCompra, '.', '') AS DECIMAL(10,2))), 2) AS total FROM xpinvestimentos";
+    $sql2 = "SELECT SUM(totalCompra) AS total FROM xpinvestimentos";
     $result2 = mysqli_query($conexao, $sql2);
 
     if (mysqli_num_rows($result) > 0) {
@@ -317,7 +317,7 @@ function receitaTotal(){
     if (mysqli_num_rows($result) > 0) {
         
         while ($row = mysqli_fetch_assoc($result)) {
-            echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>R$ ".$row['total'].",00</div>";
+            echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>R$ ".$row['total']."</div>";
         }
 
     } else {
@@ -340,7 +340,7 @@ function despesaTotal(){
     if (mysqli_num_rows($result) > 0) {
         
         while ($row = mysqli_fetch_assoc($result)) {
-            echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>R$ ".+5285.000-$row['total'].",00</div>";
+            echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>R$ ".+5285.000-$row['total']."</div>";
         }
 
     } else {
@@ -363,7 +363,7 @@ function totalAlimentacao(){
     if (mysqli_num_rows($result) > 0) {
         
         while ($row = mysqli_fetch_assoc($result)) {
-            echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>R$ ".+300-$row['total'].",00</div>";
+            echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>R$ ".+300-$row['total']."</div>";
         }
 
     } else {
@@ -386,7 +386,7 @@ function totalRefeicao() {
     if (mysqli_num_rows($result) > 0) {
         
         while ($row = mysqli_fetch_assoc($result)) {
-            echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>R$ ".+792-$row['total'].",00</div>";
+            echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>R$ ".+792-$row['total']."</div>";
         }
 
     } else {

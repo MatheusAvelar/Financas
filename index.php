@@ -320,13 +320,13 @@
                                             <i class="fas fa-circle text-success"></i> Renda
                                         </span>
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Gasto Fixo
+                                            <i class="fas fa-circle text-primary"></i> Total
                                         </span>
-                                        <span class="mr-2">
+                                        <!--<span class="mr-2">
                                             <i class="fas fa-circle text-danger"></i> Desejos
-                                        </span>
+                                        </span> -->
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Investimento
+                                            <i class="fas fa-circle text-info"></i> Despesa
                                         </span>
                                     </div>
                                 </div>

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-    include "php/dados.php";
-    session_start();
+include "php/dados.php";
+session_start();
 ?>
+
 <head>
 
     <meta charset="utf-8">
@@ -16,9 +17,7 @@
     <link rel="icon" type="imagem/png" href="img/contabilidade.png" />
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -46,13 +45,10 @@
                                     </div>
                                     <form class="user" action="login.php" method="post">
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                name="inputEmail" id="inputEmail" aria-describedby="emailHelp"
-                                                placeholder="Insira o endereço de e-mail...">
+                                            <input type="email" class="form-control form-control-user" name="inputEmail" id="inputEmail" aria-describedby="emailHelp" placeholder="Insira o endereço de e-mail...">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                name="inputPassword" id="inputPassword" placeholder="Senha">
+                                            <input type="password" class="form-control form-control-user" name="inputPassword" id="inputPassword" placeholder="Senha">
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
@@ -64,17 +60,11 @@
                                             Entrar
                                         </button>
                                         <hr>
-                                        <!--<a href="index.html" class="btn btn-google btn-user btn-block">
-                                            <i class="fab fa-google fa-fw"></i> Entrar com o Google
-                                        </a>
-                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                            <i class="fab fa-facebook-f fa-fw"></i> Entrar com o Facebook
-                                        </a>-->
                                     </form>
                                     <?php
-                                        if( isset($_POST['inputEmail']) && isset($_POST['inputPassword']) ) {
-                                            autenticaUsuario();
-                                        }
+                                    if (isset($_POST['inputEmail']) && isset($_POST['inputPassword'])) {
+                                        autenticaUsuario();
+                                    }
                                     ?>
                                     <!--<hr>-->
                                     <div class="text-center">

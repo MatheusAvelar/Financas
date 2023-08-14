@@ -1,7 +1,7 @@
 <?php
 
 function autenticaUsuario() {
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "id21135767_admin", "Matheus@307", "id21135767_bancoinova");
     ?>
     <script type="text/javascript">
     function redirecionaPainel() {
@@ -39,7 +39,7 @@ function autenticaUsuario() {
 }
 
 function cadastraLogin(){
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "id21135767_admin", "Matheus@307", "id21135767_bancoinova");
     $nome       = $_POST['firstName'];
     $sobrenome  = $_POST['lastName'];
     $email      = $_POST['inputEmail'];
@@ -80,7 +80,7 @@ function geraToken() {
 }
 
 function esqueceuSenha($email){
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "id21135767_admin", "Matheus@307", "id21135767_bancoinova");
     $codigo = geraToken();
     $senha = MD5($codigo);
 
@@ -113,7 +113,7 @@ function esqueceuSenha($email){
 }
 
 function insereDadosRefeicao() {    
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "id21135767_admin", "Matheus@307", "id21135767_bancoinova");
 
     $descricao = $_POST['descricao'];
     $valorTotalCompra = str_replace('.', '', $_POST["valorTotalCompra"]);
@@ -127,7 +127,7 @@ function insereDadosRefeicao() {
 }
 
 function insereDadosAlimentacao() {    
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "id21135767_admin", "Matheus@307", "id21135767_bancoinova");
 
     $descricao = $_POST['descricao'];
     $valorTotalCompra = str_replace('.', '', $_POST["valorTotalCompra"]);
@@ -142,7 +142,7 @@ function insereDadosAlimentacao() {
 }
 
 function insereDadosXP() {    
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "id21135767_admin", "Matheus@307", "id21135767_bancoinova");
 
     $descricao = $_POST['descricao'];
     $valorTotalCompra = str_replace('.', '', $_POST["valorTotalCompra"]);
@@ -167,7 +167,7 @@ function logout() {?>
 }
 
 function recuperaDadosRefeicao() {
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "id21135767_admin", "Matheus@307", "id21135767_bancoinova");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());
@@ -176,7 +176,7 @@ function recuperaDadosRefeicao() {
     $sql = "SELECT dataCompra,descricao,totalCompra FROM refeicao ORDER BY idCompra";
     $result = mysqli_query($conexao, $sql);
 
-    $sql2 = "SELECT ROUND(SUM(CAST(REPLACE(totalCompra, '.', '') AS DECIMAL(10,2))), 2) AS total FROM refeicao";
+    $sql2 = "SELECT SUM(totalCompra) AS total FROM refeicao";
     $result2 = mysqli_query($conexao, $sql2);
 
     if (mysqli_num_rows($result) > 0) {
@@ -213,7 +213,7 @@ function recuperaDadosRefeicao() {
 }
 
 function recuperaDadosAlimentacao() {
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "id21135767_admin", "Matheus@307", "id21135767_bancoinova");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());
@@ -222,7 +222,7 @@ function recuperaDadosAlimentacao() {
     $sql = "SELECT dataCompra,descricao,totalCompra FROM alimentacao ORDER BY idCompra";
     $result = mysqli_query($conexao, $sql);
 
-    $sql2 = "SELECT ROUND(SUM(CAST(REPLACE(totalCompra, '.', '') AS DECIMAL(10,2))), 2) AS total FROM alimentacao";
+    $sql2 = "SELECT SUM(totalCompra) AS total FROM alimentacao";
     $result2 = mysqli_query($conexao, $sql2);
 
     if (mysqli_num_rows($result) > 0) {
@@ -259,7 +259,7 @@ function recuperaDadosAlimentacao() {
 }
 
 function recuperaDadosXP() {
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "id21135767_admin", "Matheus@307", "id21135767_bancoinova");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());
@@ -305,7 +305,7 @@ function recuperaDadosXP() {
 }
 
 function receitaTotal(){
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "id21135767_admin", "Matheus@307", "id21135767_bancoinova");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());
@@ -317,7 +317,9 @@ function receitaTotal(){
     if (mysqli_num_rows($result) > 0) {
         
         while ($row = mysqli_fetch_assoc($result)) {
-            echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>R$ ".$row['total']."</div>";
+            $valorTotal = $row['total'];
+            $diferencaFormatada = number_format($valorTotal, 2, ',', '.');
+            echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>R$ ".$diferencaFormatada."</div>";
         }
 
     } else {
@@ -328,7 +330,7 @@ function receitaTotal(){
 }
 
 function despesaTotal(){
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "id21135767_admin", "Matheus@307", "id21135767_bancoinova");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());
@@ -340,7 +342,10 @@ function despesaTotal(){
     if (mysqli_num_rows($result) > 0) {
         
         while ($row = mysqli_fetch_assoc($result)) {
-            echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>R$ ".+5285.000-$row['total']."</div>";
+            $valorTotal = $row['total'];
+            $diferenca = 5285 - $valorTotal;
+            $diferencaFormatada = number_format($diferenca, 2, ',', '.');
+            echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>R$ ".$diferencaFormatada."</div>";
         }
 
     } else {
@@ -351,7 +356,7 @@ function despesaTotal(){
 }
 
 function totalAlimentacao(){
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "id21135767_admin", "Matheus@307", "id21135767_bancoinova");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());
@@ -363,7 +368,10 @@ function totalAlimentacao(){
     if (mysqli_num_rows($result) > 0) {
         
         while ($row = mysqli_fetch_assoc($result)) {
-            echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>R$ ".+300-$row['total']."</div>";
+            $valorTotal = $row['total'];
+            $diferenca = 300 - $valorTotal;
+            $diferencaFormatada = number_format($diferenca, 2, ',', '.');
+            echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>R$ ".$diferencaFormatada."</div>";
         }
 
     } else {
@@ -374,7 +382,7 @@ function totalAlimentacao(){
 }
 
 function totalRefeicao() {
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "id21135767_admin", "Matheus@307", "id21135767_bancoinova");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());
@@ -386,7 +394,10 @@ function totalRefeicao() {
     if (mysqli_num_rows($result) > 0) {
         
         while ($row = mysqli_fetch_assoc($result)) {
-            echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>R$ ".+792-$row['total']."</div>";
+            $valorTotal = $row['total'];
+            $diferenca = 792 - $valorTotal;
+            $diferencaFormatada = number_format($diferenca, 2, ',', '.');
+            echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>R$ ".$diferencaFormatada."</div>";
         }
 
     } else {

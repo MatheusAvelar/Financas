@@ -2,7 +2,7 @@
 <html lang="en">
 <?php
 include "php/dados.php";
-//include "php/form_user.php";
+session_start();
 ?>
 
 <head>

@@ -2,7 +2,7 @@
 
 function autenticaUsuario() {
     session_start();
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "u221588236_root", "Inova@307", "u221588236_controle_finan");
     ?>
     <script type="text/javascript">
     function redirecionaPainel() {
@@ -60,7 +60,7 @@ function logout() {
 }
 
 function cadastraLogin(){
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "u221588236_root", "Inova@307", "u221588236_controle_finan");
     $nome       = $_POST['firstName'];
     $sobrenome  = $_POST['lastName'];
     $email      = $_POST['inputEmail'];
@@ -101,7 +101,7 @@ function cadastraLogin(){
 }
 
 function verificaEmailExistente($email){
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "u221588236_root", "Inova@307", "u221588236_controle_finan");
     $query = mysqli_query($conexao,"SELECT * FROM usuario WHERE email = '$email'");
     $row   = mysqli_num_rows($query);
     if($row > 0){
@@ -121,7 +121,7 @@ function geraToken() {
 }
 
 function esqueceuSenha($email){
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "u221588236_root", "Inova@307", "u221588236_controle_finan");
     $codigo = geraToken();
     $senha = MD5($codigo);
 
@@ -154,7 +154,7 @@ function esqueceuSenha($email){
 }
 
 function insereDadosRefeicao() {    
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "u221588236_root", "Inova@307", "u221588236_controle_finan");
 
     $descricao = $_POST['descricao'];
     $valorTotalCompra = str_replace('.', '', $_POST["valorTotalCompra"]);
@@ -168,7 +168,7 @@ function insereDadosRefeicao() {
 }
 
 function insereDadosAlimentacao() {    
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "u221588236_root", "Inova@307", "u221588236_controle_finan");
 
     $descricao = $_POST['descricao'];
     $valorTotalCompra = str_replace('.', '', $_POST["valorTotalCompra"]);
@@ -183,7 +183,7 @@ function insereDadosAlimentacao() {
 }
 
 function insereDadosXP() {    
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "u221588236_root", "Inova@307", "u221588236_controle_finan");
 
     $descricao = $_POST['descricao'];
     $valorTotalCompra = str_replace('.', '', $_POST["valorTotalCompra"]);
@@ -198,7 +198,7 @@ function insereDadosXP() {
 
 
 function recuperaDadosRefeicao() {
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "u221588236_root", "Inova@307", "u221588236_controle_finan");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());
@@ -244,7 +244,7 @@ function recuperaDadosRefeicao() {
 }
 
 function recuperaDadosAlimentacao() {
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "u221588236_root", "Inova@307", "u221588236_controle_finan");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());
@@ -290,7 +290,7 @@ function recuperaDadosAlimentacao() {
 }
 
 function recuperaDadosXP() {
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "u221588236_root", "Inova@307", "u221588236_controle_finan");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());
@@ -336,7 +336,7 @@ function recuperaDadosXP() {
 }
 
 function receitaTotal(){
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "u221588236_root", "Inova@307", "u221588236_controle_finan");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());
@@ -361,7 +361,7 @@ function receitaTotal(){
 }
 
 function despesaTotal(){
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "u221588236_root", "Inova@307", "u221588236_controle_finan");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());
@@ -387,7 +387,7 @@ function despesaTotal(){
 }
 
 function totalAlimentacao(){
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "u221588236_root", "Inova@307", "u221588236_controle_finan");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());
@@ -413,7 +413,7 @@ function totalAlimentacao(){
 }
 
 function totalRefeicao() {
-    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $conexao = mysqli_connect("localhost", "u221588236_root", "Inova@307", "u221588236_controle_finan");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());

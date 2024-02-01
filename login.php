@@ -2,7 +2,7 @@
 <html lang="en">
 <?php
 include "php/dados.php";
-session_start();
+//include "php/form_user.php";
 ?>
 
 <head>
@@ -62,9 +62,16 @@ session_start();
                                         <hr>
                                     </form>
                                     <?php
+                                    /*if(!$_SESSION['logado']){
+                                        include_once "form_user.php";
+                                    } else {
+                                        include_once "arquivo_restrito.php";
+                                    }*/
                                     if (isset($_POST['inputEmail']) && isset($_POST['inputPassword'])) {
                                         autenticaUsuario();
-                                    }
+                                    } /*else {
+                                        include "php/arquivo_restrito.php";
+                                    }*/
                                     ?>
                                     <!--<hr>-->
                                     <div class="text-center">

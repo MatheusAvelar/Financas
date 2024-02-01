@@ -1,7 +1,8 @@
 <?php
 
 function autenticaUsuario() {
-    $conexao = mysqli_connect("localhost", "id21135767_admin", "Matheus@307", "id21135767_bancoinova");
+    session_start();
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
     ?>
     <script type="text/javascript">
     function redirecionaPainel() {
@@ -19,7 +20,6 @@ function autenticaUsuario() {
     
     if($row>0){
         $_SESSION['inputEmail'] = $email;
-        $_SESSION['inputPassword'] = $senha;
         ?>
         <div class="alert alert-success" role="alert">
         <center>Autenticado com sucesso!</center>
@@ -38,13 +38,42 @@ function autenticaUsuario() {
     }
 }
 
+function logout() {
+    clearstatcache();
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+    }
+    
+    session_destroy();
+    echo "<center><h3><b>Você foi Desconectado !</b></h3></center><br><br>";
+    echo "<script>usuarioDesconectado()</script>";
+    ?>
+    <script type="text/javascript">
+    function usuarioDesconectado() {
+        setTimeout("window.location='login.php'", 1500);
+    }
+    </script><?php
+}
+
 function cadastraLogin(){
-    $conexao = mysqli_connect("localhost", "id21135767_admin", "Matheus@307", "id21135767_bancoinova");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
     $nome       = $_POST['firstName'];
     $sobrenome  = $_POST['lastName'];
     $email      = $_POST['inputEmail'];
-    $repetirSenha = MD5($_POST['repeatPassword']);
-    $senha      = MD5($_POST['inputPassword']);
+    $repetirSenha = md5($_POST['repeatPassword']);
+    $senha      = md5($_POST['inputPassword']);
+
+    if(!verificaEmailExistente($email)) {
+        ?>
+        <div class="alert alert-danger" role="alert">
+        <center>Já existe um usuário cadastrado neste email !</center>
+        </div> 
+        <?php
+    }
 
     if( $repetirSenha === $senha ) {
         $query = "INSERT INTO usuario(nome, sobrenome, email, senha) VALUES('$nome','$sobrenome','$email','$senha')";
@@ -57,7 +86,7 @@ function cadastraLogin(){
         } else {
             ?>
             <div class="alert alert-danger" role="alert">
-            <center>Usuário não foi criado !</center>
+            <center>Houve uma falha na conexão com o banco de dados !</center>
             </div> 
             <?php
         }
@@ -68,6 +97,18 @@ function cadastraLogin(){
         </div> 
         <?php
     }
+
+}
+
+function verificaEmailExistente($email){
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $query = mysqli_query($conexao,"SELECT * FROM usuario WHERE email = '$email'");
+    $row   = mysqli_num_rows($query);
+    if($row > 0){
+        return false;
+    } else {
+        return true;
+    }   
 }
 
 function geraToken() {
@@ -80,7 +121,7 @@ function geraToken() {
 }
 
 function esqueceuSenha($email){
-    $conexao = mysqli_connect("localhost", "id21135767_admin", "Matheus@307", "id21135767_bancoinova");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
     $codigo = geraToken();
     $senha = MD5($codigo);
 
@@ -98,7 +139,7 @@ function esqueceuSenha($email){
         } else {
             ?>
             <div class="alert alert-danger" role="alert">
-            <center>Dados incorretos !</center>
+            <center>Foi enviado um e-mail para recuperação de senha !</center>
             </div> 
             <?php
         }
@@ -106,14 +147,14 @@ function esqueceuSenha($email){
     } else {
         ?>
         <div class="alert alert-danger" role="alert">
-        <center>Dados incorretos !</center>
+        <center>Foi enviado um e-mail para recuperação de senha !</center>
         </div> 
         <?php
     }
 }
 
 function insereDadosRefeicao() {    
-    $conexao = mysqli_connect("localhost", "id21135767_admin", "Matheus@307", "id21135767_bancoinova");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
 
     $descricao = $_POST['descricao'];
     $valorTotalCompra = str_replace('.', '', $_POST["valorTotalCompra"]);
@@ -127,7 +168,7 @@ function insereDadosRefeicao() {
 }
 
 function insereDadosAlimentacao() {    
-    $conexao = mysqli_connect("localhost", "id21135767_admin", "Matheus@307", "id21135767_bancoinova");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
 
     $descricao = $_POST['descricao'];
     $valorTotalCompra = str_replace('.', '', $_POST["valorTotalCompra"]);
@@ -142,7 +183,7 @@ function insereDadosAlimentacao() {
 }
 
 function insereDadosXP() {    
-    $conexao = mysqli_connect("localhost", "id21135767_admin", "Matheus@307", "id21135767_bancoinova");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
 
     $descricao = $_POST['descricao'];
     $valorTotalCompra = str_replace('.', '', $_POST["valorTotalCompra"]);
@@ -155,19 +196,9 @@ function insereDadosXP() {
     }
 }
 
-function logout() {?>
-    <script type="text/javascript">
-    function usuarioDesconectado() {
-        setTimeout("window.location='login.php'", 1500);
-    }
-    </script><?php
-    session_destroy();
-    echo "<center><h3><b>Você foi Desconectado !</b></h3></center><br><br>";
-    echo "<script>usuarioDesconectado()</script>";
-}
 
 function recuperaDadosRefeicao() {
-    $conexao = mysqli_connect("localhost", "id21135767_admin", "Matheus@307", "id21135767_bancoinova");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());
@@ -213,7 +244,7 @@ function recuperaDadosRefeicao() {
 }
 
 function recuperaDadosAlimentacao() {
-    $conexao = mysqli_connect("localhost", "id21135767_admin", "Matheus@307", "id21135767_bancoinova");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());
@@ -259,7 +290,7 @@ function recuperaDadosAlimentacao() {
 }
 
 function recuperaDadosXP() {
-    $conexao = mysqli_connect("localhost", "id21135767_admin", "Matheus@307", "id21135767_bancoinova");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());
@@ -305,7 +336,7 @@ function recuperaDadosXP() {
 }
 
 function receitaTotal(){
-    $conexao = mysqli_connect("localhost", "id21135767_admin", "Matheus@307", "id21135767_bancoinova");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());
@@ -330,7 +361,7 @@ function receitaTotal(){
 }
 
 function despesaTotal(){
-    $conexao = mysqli_connect("localhost", "id21135767_admin", "Matheus@307", "id21135767_bancoinova");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());
@@ -356,7 +387,7 @@ function despesaTotal(){
 }
 
 function totalAlimentacao(){
-    $conexao = mysqli_connect("localhost", "id21135767_admin", "Matheus@307", "id21135767_bancoinova");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());
@@ -382,7 +413,7 @@ function totalAlimentacao(){
 }
 
 function totalRefeicao() {
-    $conexao = mysqli_connect("localhost", "id21135767_admin", "Matheus@307", "id21135767_bancoinova");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());

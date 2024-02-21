@@ -1,8 +1,8 @@
 <?php
 
 function autenticaUsuario() {
-    $conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
-    //$conexao = mysqli_connect("localhost", "root", "", "controle");
+    //$conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
     ?>
     <script type="text/javascript">
     function redirecionaPainel() {
@@ -39,15 +39,6 @@ function autenticaUsuario() {
 }
 
 function logout() {
-    clearstatcache();
-    if (ini_get("session.use_cookies")) {
-        $params = session_get_cookie_params();
-        setcookie(session_name(), '', time() - 42000,
-            $params["path"], $params["domain"],
-            $params["secure"], $params["httponly"]
-        );
-    }
-    
     session_destroy();
     echo "<center><h3><b>Você foi Desconectado !</b></h3></center><br><br>";
     echo "<script>usuarioDesconectado()</script>";
@@ -60,8 +51,8 @@ function logout() {
 }
 
 function cadastraLogin(){
-    $conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
-    //$conexao = mysqli_connect("localhost", "root", "", "controle");
+    //$conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
     $nome       = $_POST['firstName'];
     $sobrenome  = $_POST['lastName'];
     $email      = $_POST['inputEmail'];
@@ -101,9 +92,29 @@ function cadastraLogin(){
 
 }
 
+function cadastraSalario(){
+    //$conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    $usuario = $_SESSION['inputEmail'];
+    $salarioCentavos = str_replace(array('.', ','), array('', '.'), $_POST['inputSalario']);
+    //$salario = number_format(strval($salarioCentavos), 2, '.', '') * 100;
+
+    $query = "INSERT INTO salario(idUsuario, salario) VALUES('$usuario','$salarioCentavos')";
+    if(mysqli_query($conexao,$query)){
+        echo "Salário cadastrado !";
+    } else {
+        ?>
+        <div class="alert alert-danger" role="alert">
+        <center>Houve uma falha na conexão com o banco de dados !</center>
+        </div> 
+        <?php
+    }
+
+}
+
 function verificaEmailExistente($email){
-    $conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
-    //$conexao = mysqli_connect("localhost", "root", "", "controle");
+    //$conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
     $query = mysqli_query($conexao,"SELECT * FROM usuario WHERE email = '$email'");
     $row   = mysqli_num_rows($query);
     if($row > 0){
@@ -123,8 +134,8 @@ function geraToken() {
 }
 
 function esqueceuSenha($email){
-    $conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
-    //$conexao = mysqli_connect("localhost", "root", "", "controle");
+    //$conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
     $codigo = geraToken();
     $senha = MD5($codigo);
 
@@ -157,14 +168,15 @@ function esqueceuSenha($email){
 }
 
 function insereDadosRefeicao() {    
-    $conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
-    //$conexao = mysqli_connect("localhost", "root", "", "controle");
+    //$conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
 
     $descricao = $_POST['descricao'];
     $valorTotalCompra = str_replace('.', '', $_POST["valorTotalCompra"]);
     $valorTotalCompra = str_replace(',', '.', $valorTotalCompra);
+    $email = $_SESSION['inputEmail'];
 
-    $sql ="INSERT INTO refeicao(descricao,totalCompra,dataCompra) VALUES ('$descricao','$valorTotalCompra',NOW())";
+    $sql ="INSERT INTO refeicao(descricao,totalCompra,dataCompra,idUsuario) VALUES ('$descricao','$valorTotalCompra',NOW(),'$email')";
 
     if(!mysqli_query($conexao, $sql)) {
         echo "Error: ".mysqli_error($conexao);
@@ -172,14 +184,15 @@ function insereDadosRefeicao() {
 }
 
 function insereDadosAlimentacao() {    
-    $conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
-    //$conexao = mysqli_connect("localhost", "root", "", "controle");
+    //$conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
 
     $descricao = $_POST['descricao'];
     $valorTotalCompra = str_replace('.', '', $_POST["valorTotalCompra"]);
     $valorTotalCompra = str_replace(',', '.', $valorTotalCompra);
 
-    $sql ="INSERT INTO alimentacao(descricao,totalCompra,dataCompra) VALUES ('$descricao','$valorTotalCompra',NOW())";
+    $email = $_SESSION['inputEmail'];
+    $sql ="INSERT INTO alimentacao(descricao,totalCompra,dataCompra,idUsuario) VALUES ('$descricao','$valorTotalCompra',NOW(),'$email')";
 
     if(!mysqli_query($conexao, $sql)) {
         echo "Error: ".mysqli_error($conexao);
@@ -187,16 +200,17 @@ function insereDadosAlimentacao() {
     totalAlimentacao();
 }
 
-function insereDadosXP() {    
-    $conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
-    //$conexao = mysqli_connect("localhost", "root", "", "controle");
+function insereDadosCartao1() {    
+    //$conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
 
     $descricao = $_POST['descricao'];
     $valorTotalCompra = str_replace('.', '', $_POST["valorTotalCompra"]);
     $valorTotalCompra = str_replace(',', '.', $valorTotalCompra);
+    $email = $_SESSION['inputEmail'];
 
-    $sql ="INSERT INTO xpinvestimentos(descricao,totalCompra,dataCompra) VALUES ('$descricao','$valorTotalCompra',NOW())";
-
+    $sql ="INSERT INTO xpinvestimentos(descricao,totalCompra,dataCompra,idUsuario) VALUES ('$descricao','$valorTotalCompra',NOW(),'$email')";
+    
     if(!mysqli_query($conexao, $sql)) {
         echo "Error: ".mysqli_error($conexao);
     }
@@ -204,17 +218,17 @@ function insereDadosXP() {
 
 
 function recuperaDadosRefeicao() {
-    $conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
-    //$conexao = mysqli_connect("localhost", "root", "", "controle");
+    //$conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());
     }
-
-    $sql = "SELECT dataCompra,descricao,totalCompra FROM refeicao ORDER BY idCompra";
+    $email = $_SESSION['inputEmail'];
+    $sql = "SELECT dataCompra,descricao,totalCompra FROM refeicao WHERE idUsuario = '$email' ORDER BY idCompra";
     $result = mysqli_query($conexao, $sql);
 
-    $sql2 = "SELECT SUM(totalCompra) AS total FROM refeicao";
+    $sql2 = "SELECT SUM(totalCompra) AS total FROM refeicao WHERE idUsuario = '$email'";
     $result2 = mysqli_query($conexao, $sql2);
 
     if (mysqli_num_rows($result) > 0) {
@@ -236,11 +250,12 @@ function recuperaDadosRefeicao() {
                     ";
         
         while ($row = mysqli_fetch_assoc($result)) {
-            echo "<tr><td>".$row["dataCompra"]."</td><td>".$row["descricao"]."</td><td>".$row["totalCompra"]."</td></tr>";
+            $dataFormatada = date('d/m/Y', strtotime($row["dataCompra"]));
+            echo "<tr><td>".$dataFormatada."</td><td>".$row["descricao"]."</td><td>R$ ".$row["totalCompra"]."</td></tr>";
         }
         
         while ($row2 = mysqli_fetch_assoc($result2)) {
-            echo "<thead><tr><th>Total do Extrato</th><th></th><th id='qtdtotal'>R$ ".$row2['total']."</th></tr></thead><tbody></table><tbody>";
+            echo "<thead><tr><th>Total do Extrato</th><th></th><th id='qtdtotal'>R$ ".formataNumero($row2['total'])."</th></tr></thead><tbody></table><tbody>";
         }
 
     } else {
@@ -251,17 +266,18 @@ function recuperaDadosRefeicao() {
 }
 
 function recuperaDadosAlimentacao() {
-    $conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
-    //$conexao = mysqli_connect("localhost", "root", "", "controle");
+    //$conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());
     }
+    $email = $_SESSION['inputEmail'];
 
-    $sql = "SELECT dataCompra,descricao,totalCompra FROM alimentacao ORDER BY idCompra";
+    $sql = "SELECT dataCompra,descricao,totalCompra FROM alimentacao WHERE idUsuario = '$email' ORDER BY idCompra";
     $result = mysqli_query($conexao, $sql);
 
-    $sql2 = "SELECT SUM(totalCompra) AS total FROM alimentacao";
+    $sql2 = "SELECT SUM(totalCompra) AS total FROM alimentacao WHERE idUsuario = '$email'";
     $result2 = mysqli_query($conexao, $sql2);
 
     if (mysqli_num_rows($result) > 0) {
@@ -283,11 +299,12 @@ function recuperaDadosAlimentacao() {
                     ";
         
         while ($row = mysqli_fetch_assoc($result)) {
-            echo "<tr><td>".$row["dataCompra"]."</td><td>".$row["descricao"]."</td><td>".$row["totalCompra"]."</td></tr>";
+            $dataFormatada = date('d/m/Y', strtotime($row["dataCompra"]));
+            echo "<tr><td>".$dataFormatada."</td><td>".$row["descricao"]."</td><td>R$ ".$row["totalCompra"]."</td></tr>";
         }
         
         while ($row2 = mysqli_fetch_assoc($result2)) {
-            echo "<thead><tr><th>Total do Extrato</th><th></th><th id='qtdtotal'>R$ ".$row2['total']."</th></tr></thead><tbody></table><tbody>";
+            echo "<thead><tr><th>Total do Extrato</th><th></th><th id='qtdtotal'>R$ ".formataNumero($row2['total'])."</th></tr></thead><tbody></table><tbody>";
         }
 
     } else {
@@ -297,18 +314,19 @@ function recuperaDadosAlimentacao() {
     mysqli_close($conexao);
 }
 
-function recuperaDadosXP() {
-    $conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
-    //$conexao = mysqli_connect("localhost", "root", "", "controle");
+function recuperaDadosCartao1() {
+    //$conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());
     }
+    $email = $_SESSION['inputEmail'];
 
-    $sql = "SELECT dataCompra,descricao,totalCompra FROM xpinvestimentos ORDER BY idCompra";
+    $sql = "SELECT dataCompra,descricao,totalCompra FROM xpinvestimentos WHERE idUsuario = '$email' ORDER BY idCompra";
     $result = mysqli_query($conexao, $sql);
 
-    $sql2 = "SELECT SUM(totalCompra) AS total FROM xpinvestimentos";
+    $sql2 = "SELECT SUM(totalCompra) AS total FROM xpinvestimentos WHERE idUsuario = '$email'";
     $result2 = mysqli_query($conexao, $sql2);
 
     if (mysqli_num_rows($result) > 0) {
@@ -329,12 +347,14 @@ function recuperaDadosXP() {
                     </thead>
                     ";
         
+                    
         while ($row = mysqli_fetch_assoc($result)) {
-            echo "<tr><td>".$row["dataCompra"]."</td><td>".$row["descricao"]."</td><td>".$row["totalCompra"]."</td></tr>";
+            $dataFormatada = date('d/m/Y', strtotime($row["dataCompra"]));
+            echo "<tr><td>".$dataFormatada."</td><td>".$row["descricao"]."</td><td>R$ ".$row["totalCompra"]."</td></tr>";
         }
         
         while ($row2 = mysqli_fetch_assoc($result2)) {
-            echo "<thead><tr><th>Total do Extrato</th><th></th><th id='qtdtotal'>R$ ".$row2['total']."</th></tr></thead><tbody></table><tbody>";
+            echo "<thead><tr><th>Total do Extrato</th><th></th><th id='qtdtotal'>R$ ".formataNumero($row2['total'])."</th></tr></thead><tbody></table><tbody>";
         }
 
     } else {
@@ -344,15 +364,27 @@ function recuperaDadosXP() {
     mysqli_close($conexao);
 }
 
+function formataNumero($valor) {
+    // Verifica se o valor tem casas decimais
+    $decimais = fmod($valor, 1) !== 0;
+
+    // Formata o número
+    $valorFormatado = number_format($valor, $decimais ? 2 : 0, ',', '.');
+
+    return $valorFormatado;
+}
+
 function receitaTotal(){
-    $conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
-    //$conexao = mysqli_connect("localhost", "root", "", "controle");
+    //$conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());
     }
 
-    $sql = "SELECT SUM(totalCompra) AS total FROM xpinvestimentos";
+    $email = $_SESSION['inputEmail'];
+
+    $sql = "SELECT SUM(totalCompra) AS total FROM xpinvestimentos WHERE idUsuario = '$email'";
     $result = mysqli_query($conexao, $sql);
 
     if (mysqli_num_rows($result) > 0) {
@@ -371,21 +403,23 @@ function receitaTotal(){
 }
 
 function despesaTotal(){
-    $conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
-    //$conexao = mysqli_connect("localhost", "root", "", "controle");
+    //$conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());
     }
+    $email = $_SESSION['inputEmail'];
 
-    $sql = "SELECT SUM(totalCompra) AS total FROM xpinvestimentos";
+    $sql = "SELECT SUM(totalCompra) AS total FROM xpinvestimentos WHERE idUsuario = '$email'";
     $result = mysqli_query($conexao, $sql);
+    $atual = retornaSalario();
 
     if (mysqli_num_rows($result) > 0) {
         
         while ($row = mysqli_fetch_assoc($result)) {
             $valorTotal = $row['total'];
-            $diferenca = 5285 - $valorTotal;
+            $diferenca = round($atual, 2) - round($valorTotal, 2);
             $diferencaFormatada = number_format($diferenca, 2, ',', '.');
             echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>R$ ".$diferencaFormatada."</div>";
         }
@@ -398,21 +432,22 @@ function despesaTotal(){
 }
 
 function totalAlimentacao(){
-    $conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
-    //$conexao = mysqli_connect("localhost", "root", "", "controle");
+    //$conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());
     }
-
-    $sql = "SELECT SUM(totalCompra) AS total FROM alimentacao";
+    $email = $_SESSION['inputEmail'];
+    $sql = "SELECT SUM(totalCompra) AS total FROM alimentacao WHERE idUsuario = '$email'";
     $result = mysqli_query($conexao, $sql);
 
     if (mysqli_num_rows($result) > 0) {
         
         while ($row = mysqli_fetch_assoc($result)) {
+            $alimentacao = retornaAlimentacao();
             $valorTotal = $row['total'];
-            $diferenca = 300 - $valorTotal;
+            $diferenca = round($alimentacao, 2) - round($valorTotal, 2);
             $diferencaFormatada = number_format($diferenca, 2, ',', '.');
             echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>R$ ".$diferencaFormatada."</div>";
         }
@@ -425,21 +460,22 @@ function totalAlimentacao(){
 }
 
 function totalRefeicao() {
-    $conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
-    //$conexao = mysqli_connect("localhost", "root", "", "controle");
+    //$conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
     
     if (!$conexao) {
         die("Falha na conexão: " . mysqli_connect_error());
     }
-
-    $sql = "SELECT SUM(totalCompra) AS total FROM refeicao";
+    $email = $_SESSION['inputEmail'];
+    $sql = "SELECT SUM(totalCompra) AS total FROM refeicao WHERE idUsuario = '$email'";
     $result = mysqli_query($conexao, $sql);
 
     if (mysqli_num_rows($result) > 0) {
         
         while ($row = mysqli_fetch_assoc($result)) {
+            $refeicao = retornaRefeicao();
             $valorTotal = $row['total'];
-            $diferenca = 792 - $valorTotal;
+            $diferenca = round($refeicao, 2) - round($valorTotal, 2);
             $diferencaFormatada = number_format($diferenca, 2, ',', '.');
             echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>R$ ".$diferencaFormatada."</div>";
         }
@@ -450,3 +486,107 @@ function totalRefeicao() {
 
     mysqli_close($conexao);
 }
+
+function retornaSalario(){
+    //$conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    
+    if (!$conexao) {
+        die("Falha na conexão: " . mysqli_connect_error());
+    }
+
+    $email = $_SESSION['inputEmail'];
+
+    $sql = "SELECT salario AS salarioAtual FROM salario WHERE idUsuario = '$email' ORDER BY idSalario LIMIT 1";
+    $result = mysqli_query($conexao, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $salarioAtual = $row['salarioAtual'];
+        return $salarioAtual;
+    }
+
+
+    mysqli_close($conexao);
+}
+
+function retornaAlimentacao(){
+    //$conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    
+    if (!$conexao) {
+        die("Falha na conexão: " . mysqli_connect_error());
+    }
+
+    $email = $_SESSION['inputEmail'];
+
+    $sql = "SELECT alimentacao AS alimentacaoAtual FROM salario WHERE idUsuario = '$email' ORDER BY idSalario LIMIT 1";
+    $result = mysqli_query($conexao, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $alimentacaoAtual = $row['alimentacaoAtual'];
+        return $alimentacaoAtual;
+    }
+
+
+    mysqli_close($conexao);
+}
+
+function retornaRefeicao(){
+    //$conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    
+    if (!$conexao) {
+        die("Falha na conexão: " . mysqli_connect_error());
+    }
+
+    $email = $_SESSION['inputEmail'];
+
+    $sql = "SELECT refeicao AS refeicaoAtual FROM salario WHERE idUsuario = '$email' ORDER BY idSalario LIMIT 1";
+    $result = mysqli_query($conexao, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $refeicaoAtual = $row['refeicaoAtual'];
+        return $refeicaoAtual;
+    }
+
+
+    mysqli_close($conexao);
+}
+
+function salarioAtual(){
+    //$conexao = mysqli_connect("127.0.0.1:3306", "u221588236_root", "Inova@307", "u221588236_controle_finan");
+    $conexao = mysqli_connect("localhost", "root", "", "controle");
+    
+    if (!$conexao) {
+        die("Falha na conexão: " . mysqli_connect_error());
+    }
+
+    $email = $_SESSION['inputEmail'];
+
+    $sql = "SELECT salario AS salarioAtual FROM salario WHERE idUsuario = '$email' AND idSalario = (SELECT MAX(idSalario) FROM salario WHERE idUsuario = '$email');";
+    $result = mysqli_query($conexao, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        
+        while ($row = mysqli_fetch_assoc($result)) {
+            $salarioAtual = number_format($row['salarioAtual'], 2, ',', '.');
+            echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>R$ ".$salarioAtual."</div>";
+        }
+
+    } else {
+        echo "Nenhum salário cadastrado! <a href='#' id='cadastrarLink'>Clique aqui para cadastrar</a>";
+        ?>
+        <script>
+        document.getElementById('cadastrarLink').addEventListener('click', function() {
+            window.location.href = 'cadastraSalario.php';
+        });
+        </script>
+        <?php
+    }
+
+    mysqli_close($conexao);
+}
+
